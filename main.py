@@ -25,13 +25,12 @@ def getBdays():
 
     calendar = Calendar(ical_data)
 
-    # Assuming you have already fetched and parsed the iCal data into the 'calendar' object
-
     # Get today's date
-    today = datetime.now().date()
+    today = datetime.now().strftime("%m-%d")
 
     # Calculate the date 7 days from today
-    seven_days_from_today = today + timedelta(days=7)
+    seven_days_from_today = (
+        datetime.now() + timedelta(days=7)).strftime("%m-%d")
 
     # Initialize arrays to store events
     events_today = []
@@ -40,12 +39,15 @@ def getBdays():
     # Iterate through the events in the calendar
     for event in calendar.events:
         event_start = event.begin.date()
+        formatted_eventstart = event_start.strftime("%m-%d")
         # Check if the event is today
-        if today == event_start:
+        if today == formatted_eventstart:
             events_today.append(event.name)
-        # Check if the event is exactly 7 days from today
-        elif seven_days_from_today == event_start:
+
+        # Check if the event falls within the next 7 days
+        elif seven_days_from_today == formatted_eventstart:
             events_in_seven_days.append(event.name)
+
     return events_today, events_in_seven_days
 
 
@@ -97,7 +99,10 @@ def checkBdaysAndSendTexts():
 
 
 if __name__ == "__main__":
+    # Run the task once on startup
+    print("Checking birthdays and sending texts on startup...")
     checkBdaysAndSendTexts()
+
     while True:
         sleep_duration = calculate_seconds_until_next_nine_am()
         print(f"Waiting for {sleep_duration} seconds until 9:00 AM GMT...")
