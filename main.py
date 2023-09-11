@@ -94,7 +94,6 @@ def calculate_seconds_until_next_nine_am():
 
 def checkBdaysAndSendTexts():
     today, seven_days = getBdays()
-    print(today), print(seven_days)
     sendTexts(today, seven_days)
 
 
