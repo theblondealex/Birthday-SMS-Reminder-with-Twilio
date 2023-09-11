@@ -92,10 +92,12 @@ def calculate_seconds_until_next_nine_am():
 
 def checkBdaysAndSendTexts():
     today, seven_days = getBdays()
+    print(today), print(seven_days)
     sendTexts(today, seven_days)
 
 
 if __name__ == "__main__":
+    checkBdaysAndSendTexts()
     while True:
         sleep_duration = calculate_seconds_until_next_nine_am()
         print(f"Waiting for {sleep_duration} seconds until 9:00 AM GMT...")
